@@ -1,0 +1,42 @@
+[
+  {
+    "book": "John",
+    "chapter": 1,
+    "verse": 1,
+    "greek": "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος.",
+    "latin": "In principio erat Verbum, et Verbum erat apud Deum, et Deus erat Verbum.",
+    "spanish": "En el principio era el Verbo, y el Verbo estaba en Dios, y el Verbo era Dios."
+  },
+  {
+    "book": "John",
+    "chapter": 1,
+    "verse": 2,
+    "greek": "οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν θεόν.",
+    "latin": "Hoc erat in principio apud Deum.",
+    "spanish": "Él estaba en el principio junto a Dios."
+  },
+  {
+    "book": "John",
+    "chapter": 1,
+    "verse": 3,
+    "greek": "πάντα δι’ αὐτοῦ ἐγένετο, καὶ χωρὶς αὐτοῦ ἐγένετο οὐδὲ ἕν. ὃ γέγονεν",
+    "latin": "Omnia per ipsum facta sunt: et sine ipso factum est nihil, quod factum est.",
+    "spanish": "Todas las cosas por él fueron hechas; y sin él no se hizo nada de lo que ha sido hecho."
+  },
+  {
+    "book": "John",
+    "chapter": 1,
+    "verse": 4,
+    "greek": "ἐν αὐτῷ ζωὴ ἦν, καὶ ἡ ζωὴ ἦν τὸ φῶς τῶν ἀνθρώπων.",
+    "latin": "In ipso vita erat, et vita erat lux hominum.",
+    "spanish": "En él estaba la vida, y la vida era la luz de los hombres."
+  },
+  {
+    "book": "John",
+    "chapter": 1,
+    "verse": 5,
+    "greek": "καὶ τὸ φῶς ἐν τῇ σκοτίᾳ φαίνει, καὶ ἡ σκοτία αὐτὸ οὐ κατέλαβεν.",
+    "latin": "Et lux in tenebris lucet, et tenebrae eam non comprehenderunt.",
+    "spanish": "Y la luz en las tinieblas luce; mas las tinieblas no la recibieron."
+  }
+]
