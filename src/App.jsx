@@ -2,21 +2,100 @@ import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
 const GOSPELS = [
-  { id: "matthew", label: "Matthew", available: false },
-  { id: "mark", label: "Mark", available: false },
-  { id: "luke", label: "Luke", available: false },
-  { id: "john", label: "John", available: true },
+  {
+    id: "matthew",
+    label: "Matthew",
+    heading: "Κατὰ Ματθαῖον",
+    subheading: "Secundum Matthaeum",
+    available: false,
+  },
+  {
+    id: "mark",
+    label: "Mark",
+    heading: "Κατὰ Μᾶρκον",
+    subheading: "Secundum Marcum",
+    available: false,
+  },
+  {
+    id: "luke",
+    label: "Luke",
+    heading: "Κατὰ Λουκᾶν",
+    subheading: "Secundum Lucam",
+    available: false,
+  },
+  {
+    id: "john",
+    label: "John",
+    heading: "Κατὰ Ἰωάννην",
+    subheading: "Secundum Ioannem",
+    available: true,
+  },
 ];
 
 const VERNACULARS = [
-  { id: "spanish", label: "Spanish", field: "spanish", available: true },
-  { id: "portuguese", label: "Portuguese", field: "portuguese", available: false },
+  { id: "spanish", label: "Español", field: "spanish", available: true },
   { id: "english", label: "English", field: "english", available: false },
-  { id: "italian", label: "Italian", field: "italian", available: false },
-  { id: "french", label: "French", field: "french", available: false },
-  { id: "german", label: "German", field: "german", available: false },
+  { id: "german", label: "Deutsch", field: "german", available: false },
   { id: "polski", label: "Polski", field: "polski", available: false },
 ];
+
+const CHAPTER_LABELS = {
+  spanish: "Capítulo",
+  english: "Chapter",
+  german: "Kapitel",
+  polski: "Rozdział",
+  greek: "Κεφάλαιον",
+  latin: "Caput",
+};
+
+function toRomanNumeral(number) {
+  const numerals = [
+    [1000, "M"],
+    [900, "CM"],
+    [500, "D"],
+    [400, "CD"],
+    [100, "C"],
+    [90, "XC"],
+    [50, "L"],
+    [40, "XL"],
+    [10, "X"],
+    [9, "IX"],
+    [5, "V"],
+    [4, "IV"],
+    [1, "I"],
+  ];
+
+  let value = number;
+  let result = "";
+
+  for (const [arabic, roman] of numerals) {
+    while (value >= arabic) {
+      result += roman;
+      value -= arabic;
+    }
+  }
+
+  return result || String(number);
+}
+
+function toGreekNumeral(number) {
+  const greekOnes = ["", "α", "β", "γ", "δ", "ε", "ϛ", "ζ", "η", "θ"];
+  const greekTens = ["", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ϟ"];
+  const greekHundreds = ["", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω", "ϡ"];
+
+  if (!Number.isInteger(number) || number <= 0 || number >= 1000) {
+    return String(number);
+  }
+
+  const hundreds = Math.floor(number / 100);
+  const tens = Math.floor((number % 100) / 10);
+  const ones = number % 10;
+
+  return `ʹ${greekHundreds[hundreds]}${greekTens[tens]}${greekOnes[ones]}`.replace(
+    "ʹ",
+    "",
+  ).concat("ʹ");
+}
 
 function App() {
   const [selectedGospel, setSelectedGospel] = useState("john");
@@ -123,7 +202,6 @@ function App() {
       }}
     >
       <nav className="gospel-topbar" aria-label="Gospel selection">
-        <p className="sidebar-label">Gospels</p>
         <div className="gospel-list">
           {GOSPELS.map((gospel) => (
             <button
@@ -135,7 +213,8 @@ function App() {
                 setSelectedGospel(gospel.id);
               }}
             >
-              <span>{gospel.label}</span>
+              <span className="gospel-heading">{gospel.heading}</span>
+              <span className="gospel-subheading">{gospel.subheading}</span>
             </button>
           ))}
         </div>
@@ -143,14 +222,13 @@ function App() {
 
       <main className="app">
         <header className="page-header">
-          <p className="eyebrow">Parallel Gospel Reader</p>
-          <h1>Gospel of Saint {currentGospel?.label}</h1>
+          <h1>Evengelium Heptaglotton</h1>
+          <p className="folio-subtitle">The Gospel according to Saint {currentGospel?.label}</p>
         </header>
 
         <div className="reader-controls">
           <div className="reader-controls-left">
             <div className="control-group vernacular-group">
-              <span>Vernacular</span>
               <div className="vernacular-list" role="group" aria-label="Vernacular selection">
                 {VERNACULARS.map((vernacular) => (
                   <button
@@ -259,17 +337,20 @@ function App() {
         </div>
 
         {isLoading ? (
-          <p>Loading...</p>
+          <p className="loading-state">Setting the folio...</p>
         ) : (
           <div className="parallel-reader">
+            <div className="folio-rule" aria-hidden="true" />
             <div className="parallel-header">{currentVernacular?.label}</div>
-            <div className="parallel-header">Greek</div>
-            <div className="parallel-header">Latin</div>
+            <div className="parallel-header">Ελληνικά</div>
+            <div className="parallel-header">Latina</div>
 
             {chapterGroups.map((group) => (
               <div key={`chapter-${group.chapter}`} className="chapter-section">
                 <div id={`chapter-${group.chapter}`} className="chapter-divider">
-                  Chapter {group.chapter}
+                  <span>{CHAPTER_LABELS[selectedVernacular] || "Chapter"} {group.chapter}</span>
+                  <span>{CHAPTER_LABELS.greek} {toGreekNumeral(group.chapter)}</span>
+                  <span>{CHAPTER_LABELS.latin} {toRomanNumeral(group.chapter)}</span>
                 </div>
 
                 {group.verses.map((verse) => (
